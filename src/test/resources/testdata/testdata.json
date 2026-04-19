@@ -1,0 +1,26 @@
+[
+  {
+    "keyword": "iPhone",
+    "expectedMinResults": 10,
+    "expectedTitleContains": "iPhone",
+    "category": "Electronics"
+  },
+  {
+    "keyword": "Samsung",
+    "expectedMinResults": 10,
+    "expectedTitleContains": "Samsung",
+    "category": "Electronics"
+  },
+  {
+    "keyword": "MacBook",
+    "expectedMinResults": 5,
+    "expectedTitleContains": "MacBook",
+    "category": "Computers"
+  },
+  {
+    "keyword": "Headphones",
+    "expectedMinResults": 10,
+    "expectedTitleContains": "Headphones",
+    "category": "Electronics"
+  }
+]
