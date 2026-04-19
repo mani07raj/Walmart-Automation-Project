@@ -11,3 +11,6 @@ target/
 *.log
 logs/
 Thumbs.db
+
+# Submission document — keep local only
+*.html
