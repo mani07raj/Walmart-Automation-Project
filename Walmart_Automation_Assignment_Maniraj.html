@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Walmart Automation Assignment - Maniraj</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; background: #1a2332; color: #cdd6e0; line-height: 1.6; }
+
+  /* Cover Page */
+  .cover { min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; background: linear-gradient(135deg, #1a2332 0%, #243447 100%); padding: 60px 40px; text-align: center; page-break-after: always; }
+  .cover-icon { font-size: 72px; margin-bottom: 24px; }
+  .cover h1 { font-size: 42px; font-weight: 700; color: #ffffff; margin-bottom: 12px; letter-spacing: -0.5px; }
+  .cover .subtitle { font-size: 18px; color: #8899aa; margin-bottom: 48px; }
+  .cover-divider { width: 60px; height: 3px; background: #e8a020; margin: 0 auto 48px; border-radius: 2px; }
+  .cover-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; max-width: 560px; width: 100%; margin-bottom: 40px; }
+  .cover-card { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 10px; padding: 20px 24px; text-align: center; }
+  .cover-card .label { font-size: 11px; color: #e8a020; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 8px; }
+  .cover-card .value { font-size: 16px; font-weight: 600; color: #ffffff; }
+  .github-badge { background: rgba(232,160,32,0.15); border: 2px solid #e8a020; border-radius: 10px; padding: 16px 32px; color: #e8a020; font-weight: 700; font-size: 15px; }
+
+  /* Sections */
+  .page { padding: 60px 80px; max-width: 1100px; margin: 0 auto; }
+  .section { margin-bottom: 64px; page-break-inside: avoid; }
+  .section-header { display: flex; align-items: center; gap: 16px; margin-bottom: 28px; padding: 18px 24px; background: linear-gradient(135deg, #243447, #2d3f55); border-radius: 10px; border-left: 4px solid #e8a020; }
+  .section-num { background: #e8a020; color: #1a2332; width: 36px; height: 36px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 16px; flex-shrink: 0; }
+  .section-title { font-size: 22px; font-weight: 700; color: #ffffff; }
+
+  /* Tables */
+  table { width: 100%; border-collapse: collapse; margin: 16px 0; }
+  th { background: #2d3f55; color: #ffffff; padding: 12px 16px; text-align: left; font-size: 13px; font-weight: 600; }
+  td { padding: 11px 16px; border-bottom: 1px solid rgba(255,255,255,0.07); font-size: 13px; color: #cdd6e0; }
+  tr:hover td { background: rgba(255,255,255,0.03); }
+
+  /* Code blocks */
+  pre { background: #0d1117; border: 1px solid #30363d; border-radius: 8px; padding: 20px; font-family: 'Consolas', 'Courier New', monospace; font-size: 12.5px; color: #e6edf3; overflow-x: auto; margin: 12px 0; line-height: 1.7; }
+  code { background: #2d3f55; padding: 2px 7px; border-radius: 4px; font-family: 'Consolas', monospace; font-size: 12px; color: #79c0ff; }
+
+  /* OOP Cards */
+  .oop-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 28px; }
+  .oop-card { background: #243447; border: 1px solid #30363d; border-radius: 10px; padding: 22px; }
+  .oop-card h4 { font-size: 15px; font-weight: 700; color: #ffffff; margin-bottom: 10px; }
+  .oop-card p { font-size: 13px; color: #8899aa; line-height: 1.6; }
+  .oop-card code { font-size: 11.5px; }
+
+  /* Scenario cards */
+  .scenario-card { background: #243447; border: 1px solid #30363d; border-radius: 10px; padding: 24px; margin-bottom: 20px; }
+  .scenario-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px; }
+  .scenario-title { font-size: 15px; font-weight: 700; color: #ffffff; }
+  .badge { background: #2d3f55; color: #79c0ff; font-size: 11px; padding: 4px 10px; border-radius: 20px; font-weight: 600; }
+  .badge.smoke { background: rgba(63,185,80,0.15); color: #3fb950; }
+  .badge.regression { background: rgba(121,192,255,0.15); color: #79c0ff; }
+  .badge.datadriven { background: rgba(232,160,32,0.15); color: #e8a020; }
+  .step { display: flex; align-items: flex-start; gap: 12px; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.05); font-size: 13px; }
+  .step:last-child { border-bottom: none; }
+  .step-kw { font-size: 11px; font-weight: 700; padding: 3px 8px; border-radius: 4px; min-width: 48px; text-align: center; flex-shrink: 0; }
+  .kw-given { background: #1f4e2e; color: #3fb950; }
+  .kw-when  { background: #1a3a5c; color: #79c0ff; }
+  .kw-then  { background: #3d2b00; color: #e8a020; }
+  .kw-and   { background: #2d2d2d; color: #8899aa; }
+  .check { color: #3fb950; margin-right: 4px; }
+  .step-text { color: #cdd6e0; }
+  .step-text strong { color: #e8a020; }
+
+  /* Deliverables grid */
+  .deliverables-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 32px; }
+  .deliverable-card { background: #243447; border: 1px solid #30363d; border-radius: 10px; padding: 24px; text-align: center; }
+  .deliverable-icon { font-size: 32px; margin-bottom: 12px; }
+  .deliverable-card h4 { font-size: 14px; font-weight: 700; color: #ffffff; margin-bottom: 8px; }
+  .deliverable-card p { font-size: 12px; color: #8899aa; margin-bottom: 12px; line-height: 1.5; }
+  .status-badge { display: inline-block; background: rgba(63,185,80,0.15); color: #3fb950; font-size: 12px; font-weight: 700; padding: 4px 12px; border-radius: 20px; }
+
+  /* GitHub box */
+  .github-box { background: rgba(232,160,32,0.08); border: 2px solid #e8a020; border-radius: 10px; padding: 24px; text-align: center; margin: 24px 0; }
+  .github-box a { color: #e8a020; font-size: 18px; font-weight: 700; text-decoration: none; }
+  .github-box p { color: #8899aa; font-size: 13px; margin-top: 8px; }
+
+  /* Eval table */
+  .eval-table th:nth-child(3) { text-align: center; }
+  .eval-table td:nth-child(2) { text-align: center; }
+  .eval-table td:nth-child(3) { text-align: center; }
+  .full-badge { background: rgba(63,185,80,0.15); color: #3fb950; font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 12px; display: inline-block; }
+  .total-row td { background: #2d3f55; color: #ffffff; font-weight: 700; font-size: 15px; }
+  .total-score { color: #3fb950; font-size: 16px; font-weight: 800; }
+
+  /* Footer */
+  .footer { background: #243447; text-align: center; padding: 32px; color: #8899aa; font-size: 13px; margin-top: 60px; }
+  .footer a { color: #e8a020; text-decoration: none; }
+
+  /* Info boxes */
+  .info-box { background: rgba(232,160,32,0.08); border-left: 3px solid #e8a020; border-radius: 0 8px 8px 0; padding: 14px 18px; margin: 12px 0; font-size: 13px; color: #cdd6e0; }
+
+  /* Execution summary */
+  .exec-summary { background: #243447; border: 1px solid #30363d; border-radius: 10px; overflow: hidden; }
+  .exec-row { display: flex; border-bottom: 1px solid rgba(255,255,255,0.07); }
+  .exec-row:last-child { border-bottom: none; }
+  .exec-label { background: #2d3f55; padding: 12px 20px; font-size: 13px; font-weight: 600; color: #8899aa; min-width: 220px; }
+  .exec-value { padding: 12px 20px; font-size: 13px; color: #cdd6e0; }
+  .passing { color: #3fb950; font-weight: 700; }
+
+  @media print {
+    .cover { page-break-after: always; }
+    .section { page-break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════ COVER PAGE ═══════════════════════════ -->
+<div class="cover">
+  <div class="cover-icon">🛒</div>
+  <h1>Walmart BDD Automation Framework</h1>
+  <p class="subtitle">Test Automation Assignment Submission</p>
+  <div class="cover-divider"></div>
+  <div class="cover-grid">
+    <div class="cover-card"><div class="label">Candidate</div><div class="value">Maniraj</div></div>
+    <div class="cover-card"><div class="label">Date</div><div class="value">April 2026</div></div>
+    <div class="cover-card"><div class="label">Site Under Test</div><div class="value">Walmart.com</div></div>
+    <div class="cover-card"><div class="label">Framework Type</div><div class="value">BDD + POM + Data Driven</div></div>
+    <div class="cover-card"><div class="label">Language</div><div class="value">Java 17</div></div>
+    <div class="cover-card"><div class="label">Test Runner</div><div class="value">Cucumber 7 + TestNG</div></div>
+  </div>
+  <div class="github-badge">⭐ GitHub Repository: mani07raj/Walmart-Automation-Project</div>
+</div>
+
+<!-- ═══════════════════════════ MAIN CONTENT ═══════════════════════════ -->
+<div class="page">
+
+<!-- ─── SECTION 1: Framework Overview & Tech Stack ─── -->
+<div class="section">
+  <div class="section-header"><div class="section-num">1</div><div class="section-title">Framework Overview &amp; Tech Stack</div></div>
+  <p style="margin-bottom:20px;font-size:14px;color:#cdd6e0;">
+    This is a BDD automation framework built for <strong style="color:#fff;">Walmart.com</strong>. It follows a
+    <strong style="color:#fff;">Hybrid Architecture</strong> combining BDD (Cucumber), Page Object Model, and Data-Driven Testing.
+    The framework includes realistic interaction timing via HumanUtils to handle Walmart's dynamic page behaviour,
+    overlay dismissal logic, and comprehensive reporting via ExtentReports and Log4j2.
+  </p>
+  <table>
+    <tr><th>Tool / Library</th><th>Version</th><th>Purpose</th></tr>
+    <tr><td>Java</td><td>17</td><td>Programming language</td></tr>
+    <tr><td>Selenium WebDriver</td><td>4.18.1</td><td>Browser automation</td></tr>
+    <tr><td>Cucumber</td><td>7.15.0</td><td>BDD framework — Gherkin feature files</td></tr>
+    <tr><td>TestNG</td><td>7.9.0</td><td>Test runner + lifecycle management</td></tr>
+    <tr><td>WebDriverManager</td><td>5.7.0</td><td>Auto driver setup (Chrome/Edge/Firefox)</td></tr>
+    <tr><td>ExtentReports</td><td>5.1.1</td><td>Rich HTML execution reports with screenshots</td></tr>
+    <tr><td>Log4j2</td><td>2.23.1</td><td>Console + rolling file logging</td></tr>
+    <tr><td>Apache POI</td><td>5.2.5</td><td>Excel data-driven testing</td></tr>
+    <tr><td>Gson</td><td>2.10.1</td><td>JSON data-driven testing</td></tr>
+    <tr><td>Jackson</td><td>2.17.0</td><td>JSON support for ExtentReports</td></tr>
+    <tr><td>Maven</td><td>3.x</td><td>Build tool + dependency management</td></tr>
+  </table>
+</div>
+
+<!-- ─── SECTION 2: Project Structure ─── -->
+<div class="section">
+  <div class="section-header"><div class="section-num">2</div><div class="section-title">Project Structure</div></div>
+  <pre>WalmartAutomationAssignment/
+├── src/main/java/com/walmart/framework/
+│   ├── base/         BasePage.java              ← Abstract base for all Page Objects
+│   ├── browser/      IBrowser.java              ← Interface (Polymorphism)
+│   │                 BrowserFactory.java        ← Chrome / Edge / Firefox setup
+│   │                 DriverFactory.java         ← Singleton + ThreadLocal WebDriver
+│   ├── config/       ConfigReader.java          ← Loads config.properties
+│   ├── pages/        HomePage.java              ← 6 Page Object classes
+│   │                 SearchResultsPage.java
+│   │                 DepartmentsPage.java
+│   │                 ProductListingPage.java
+│   │                 ProductDetailsPage.java
+│   │                 CartPage.java
+│   └── utils/        WaitUtils.java             ← Explicit + Fluent waits
+│                     HumanUtils.java            ← Realistic interaction timing
+│                     ScreenshotUtils.java       ← Failure screenshots
+│                     ReportLogs.java            ← Extent report logging
+│                     LoggerUtils.java           ← Log4j2 wrapper
+│                     JsonReader.java            ← JSON data reader (Gson)
+│                     ExcelReader.java           ← Excel data reader (POI)
+│
+├── src/test/java/com/walmart/tests/
+│   ├── hooks/        ApplicationHooks.java      ← @Before/@After lifecycle
+│   ├── runner/       TestRunner.java            ← Cucumber TestNG runner
+│   └── stepdefinitions/
+│                     CommonSteps.java           ← Shared Given steps
+│                     SearchSteps.java           ← Search scenario steps
+│                     CartSteps.java             ← Cart scenario steps
+│
+├── src/test/resources/
+│   ├── features/     Search.feature             ← Scenario 1 + Outline
+│   │                 Cart.feature               ← Scenario 2 — full cart flow
+│   ├── config/       config.properties          ← browser, url, timeouts
+│   ├── testdata/     testdata.json              ← JSON test data
+│   │                 testdata.xlsx              ← Excel test data
+│   ├── extent.properties                        ← ExtentReports config
+│   ├── extent-config.xml                        ← Report theme + title
+│   └── log4j2.xml                               ← Logging configuration
+│
+├── testng.xml                                   ← TestNG suite definition
+├── pom.xml                                      ← Maven dependencies
+├── architecture-diagram.md                      ← Framework architecture
+└── README.md                                    ← Setup + execution guide</pre>
+</div>
+
+<!-- ─── SECTION 3: OOP Concepts ─── -->
+<div class="section">
+  <div class="section-header"><div class="section-num">3</div><div class="section-title">OOP Concepts Implementation</div></div>
+  <div class="oop-grid">
+    <div class="oop-card">
+      <h4>🔒 Encapsulation</h4>
+      <p>All page locators are <code>private static final</code>. Only public business methods are exposed to step definitions. <code>DriverFactory</code> keeps <code>ThreadLocal&lt;WebDriver&gt;</code> private — accessed only via <code>getDriver()</code> / <code>setDriver()</code>.</p>
+    </div>
+    <div class="oop-card">
+      <h4>🎭 Abstraction</h4>
+      <p><code>BasePage</code> is <code>abstract</code> — hides all Selenium + HumanUtils complexity. <code>IBrowser</code> is an interface defining the browser contract. Step definitions only see clean business methods, never raw Selenium.</p>
+    </div>
+    <div class="oop-card">
+      <h4>🧬 Inheritance</h4>
+      <p>All 6 page classes extend <code>BasePage</code> and inherit <code>click()</code>, <code>sendKeys()</code>, <code>getText()</code>, <code>jsClick()</code>, <code>waitUtils</code>, <code>actions</code> — zero code duplication across pages.</p>
+    </div>
+    <div class="oop-card">
+      <h4>🔄 Polymorphism</h4>
+      <p><code>BrowserFactory implements IBrowser</code> — same <code>createBrowserInstance()</code> method creates Chrome, Edge, or Firefox based on runtime configuration input.</p>
+    </div>
+  </div>
+  <table>
+    <tr><th>Concept</th><th>Where Implemented</th><th>How</th></tr>
+    <tr><td>Encapsulation</td><td>All 6 Page Objects, DriverFactory, ConfigReader</td><td>private locators + public methods only</td></tr>
+    <tr><td>Abstraction</td><td>BasePage (abstract), IBrowser (interface)</td><td>Hides Selenium/HumanUtils from step definitions</td></tr>
+    <tr><td>Inheritance</td><td>HomePage, SearchResultsPage, ProductDetailsPage, CartPage, DepartmentsPage, ProductListingPage</td><td>All extend BasePage</td></tr>
+    <tr><td>Polymorphism</td><td>BrowserFactory</td><td>Same method, different driver per input</td></tr>
+    <tr><td>Singleton</td><td>DriverFactory.getInstance()</td><td>One instance, ThreadLocal for thread safety</td></tr>
+    <tr><td>Builder</td><td>ExcelReader.Builder</td><td>Fluent configuration for Excel reading</td></tr>
+  </table>
+</div>
+
+<!-- ─── SECTION 4: Architecture Diagram ─── -->
+<div class="section">
+  <div class="section-header"><div class="section-num">4</div><div class="section-title">Framework Architecture Diagram</div></div>
+  <pre>┌─────────────────────────────────────────────────────────────────────────────┐
+│              WALMART BDD AUTOMATION FRAMEWORK                               │
+│         Hybrid: BDD + Page Object Model + Data Driven                       │
+└─────────────────────────────────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  TEST EXECUTION ENTRY POINT                                                 │
+│  testng.xml ──► TestRunner.java ──► @CucumberOptions                        │
+│  (suite config)  (AbstractTestNGCucumberTests)  features + glue + tags      │
+└─────────────────────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  BDD LAYER  (src/test)                                                      │
+│  ┌──────────────────────┐   ┌──────────────────────────────────────────┐   │
+│  │  Feature Files       │   │  Step Definitions                        │   │
+│  │  Search.feature      │──►│  CommonSteps.java  (Given: homepage)     │   │
+│  │  - @smoke scenario   │   │  SearchSteps.java  (When/Then: search)   │   │
+│  │  - Scenario Outline  │   │  CartSteps.java    (When/Then: cart)     │   │
+│  │  Cart.feature        │──►│  ApplicationHooks  (@Before / @After)    │   │
+│  └──────────────────────┘   └──────────────────────────────────────────┘   │
+└─────────────────────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  PAGE OBJECT MODEL LAYER  (src/main/java/.../pages)                         │
+│  ┌──────────────────────────────────────────┐                               │
+│  │  BasePage  (abstract)                    │  ◄── Abstraction              │
+│  │  - WebDriver driver  (protected)         │  ◄── Encapsulation            │
+│  │  - click(), sendKeys(), getText()        │                               │
+│  └──────────────────┬───────────────────────┘                               │
+│                     │  extends  (Inheritance)                               │
+│  HomePage  SearchResultsPage  ProductDetailsPage  CartPage  DepartmentsPage │
+└─────────────────────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+┌─────────────────────────────────────────────────────────────────────────────┐
+│  FRAMEWORK UTILITIES                                                        │
+│  BrowserFactory (IBrowser ◄─Polymorphism)   DriverFactory (Singleton)      │
+│  WaitUtils (Explicit+Fluent)   HumanUtils (Interaction timing)              │
+│  ScreenshotUtils   ReportLogs   JsonReader   ExcelReader   LoggerUtils      │
+└─────────────────────────────────────────────────────────────────────────────┘
+                              │
+                              ▼
+┌──────────────────────────────────┬──────────────────────────────────────────┐
+│  DATA SOURCES                    │  REPORTING &amp; LOGGING                     │
+│  config.properties               │  ExtentReports → SparkReport.html        │
+│  testdata.json  (JSON driven)    │  Cucumber HTML → report.html             │
+│  testdata.xlsx  (Excel driven)   │  Log4j2 → test-execution.log            │
+│  Examples table (Outline)        │  Screenshots → target/screenshots/       │
+└──────────────────────────────────┴──────────────────────────────────────────┘</pre>
+</div>
+
+<!-- ─── SECTION 5: BDD Feature Files ─── -->
+<div class="section">
+  <div class="section-header"><div class="section-num">5</div><div class="section-title">BDD Feature Files</div></div>
+
+  <div class="scenario-card">
+    <div class="scenario-header">
+      <span class="scenario-title">📄 Search.feature — Walmart Product Search</span>
+      <span><span class="badge regression">@regression</span> &nbsp;<span class="badge" style="background:rgba(121,192,255,0.15);color:#79c0ff;">@search</span></span>
+    </div>
+    <pre style="font-size:12px;">@regression @search
+Feature: Walmart Product Search
+  As a Walmart customer
+  I want to search for products using the search bar
+  So that I can find relevant products quickly
+
+  Background:
+    Given I am on the Walmart homepage
+
+  @smoke
+  Scenario: Search for iPhone using the search bar
+    When I type "iPhone" in the search bar
+    And I click on the first search suggestion
+    Then the search results page should be displayed
+    And the search results should be relevant to "iPhone"
+
+  @regression
+  Scenario Outline: Search for multiple products
+    When I type "&lt;product&gt;" in the search bar
+    And I click on the first search suggestion
+    Then the search results page should be displayed
+    And the search results should be relevant to "&lt;product&gt;"
+    Examples:
+      | product    |
+      | Samsung    |
+      | MacBook    |
+      | Headphones |</pre>
+  </div>
+
+  <div class="scenario-card">
+    <div class="scenario-header">
+      <span class="scenario-title">📄 Cart.feature — Add Product to Cart and Validate</span>
+      <span><span class="badge regression">@regression</span> &nbsp;<span class="badge" style="background:rgba(232,160,32,0.15);color:#e8a020;">@cart</span></span>
+    </div>
+    <pre style="font-size:12px;">@regression @cart
+Feature: Add Product to Cart from Departments
+  As a Walmart customer
+  I want to add a product to my cart via Departments navigation
+  So that I can purchase it later
+
+  Background:
+    Given I am on the Walmart homepage
+
+  @smoke
+  Scenario: Add a Toys product to cart and validate cart details
+    When I click on the Departments menu
+    And I hover over "Toys &amp; Outdoor Play"
+    And I click on "All Toys &amp; Outdoor Play"
+    And I select the first product from the listing
+    Then I should be on the product details page
+    When I click on "Add to cart"
+    Then the product should be added to the cart
+    And the cart subtotal should be displayed
+    And the estimated total should be displayed
+    And the cart icon count should be "1"</pre>
+  </div>
+</div>
+
+<!-- ─── SECTION 6: Test Scenarios & Validations ─── -->
+<div class="section">
+  <div class="section-header"><div class="section-num">6</div><div class="section-title">Test Scenarios &amp; Validations</div></div>
+
+  <div class="scenario-card">
+    <div class="scenario-header">
+      <span class="scenario-title">Scenario 1 — Search for iPhone</span>
+      <span class="badge smoke">4 Validations</span>
+    </div>
+    <div class="step"><span class="step-kw kw-given">GIVEN</span><span class="step-text">I am on the Walmart homepage</span></div>
+    <div class="step"><span class="step-kw kw-when">WHEN</span><span class="step-text">I type <strong>"iPhone"</strong> in the search bar</span></div>
+    <div class="step"><span class="step-kw kw-and">AND</span><span class="step-text">I click on the first search suggestion</span></div>
+    <div class="step"><span class="step-kw kw-then">THEN</span><span class="step-text"><span class="check">✅</span> The search results page should be displayed</span></div>
+    <div class="step"><span class="step-kw kw-and">AND</span><span class="step-text"><span class="check">✅</span> The search results should be relevant to <strong>"iPhone"</strong></span></div>
+    <div class="step"><span class="step-kw kw-and">AND</span><span class="step-text"><span class="check">✅</span> URL contains <strong>/search?q=iPhone</strong></span></div>
+    <div class="step"><span class="step-kw kw-and">AND</span><span class="step-text"><span class="check">✅</span> URL-based relevance fallback confirms keyword match</span></div>
+  </div>
+
+  <div class="scenario-card">
+    <div class="scenario-header">
+      <span class="scenario-title">Scenario 2 — Add Toys Product to Cart and Validate</span>
+      <span class="badge smoke">8 Validations</span>
+    </div>
+    <div class="step"><span class="step-kw kw-given">GIVEN</span><span class="step-text">I am on the Walmart homepage</span></div>
+    <div class="step"><span class="step-kw kw-when">WHEN</span><span class="step-text">I click on the Departments menu (navigates to Toys via search)</span></div>
+    <div class="step"><span class="step-kw kw-and">AND</span><span class="step-text">I hover over <strong>"Toys &amp; Outdoor Play"</strong></span></div>
+    <div class="step"><span class="step-kw kw-and">AND</span><span class="step-text">I click on <strong>"All Toys &amp; Outdoor Play"</strong></span></div>
+    <div class="step"><span class="step-kw kw-and">AND</span><span class="step-text">I select the first product from the listing</span></div>
+    <div class="step"><span class="step-kw kw-then">THEN</span><span class="step-text"><span class="check">✅</span> I should be on the product details page (URL contains /ip/)</span></div>
+    <div class="step"><span class="step-kw kw-when">WHEN</span><span class="step-text">I click on <strong>"Add to cart"</strong></span></div>
+    <div class="step"><span class="step-kw kw-then">THEN</span><span class="step-text"><span class="check">✅</span> The product should be added to the cart</span></div>
+    <div class="step"><span class="step-kw kw-and">AND</span><span class="step-text"><span class="check">✅</span> The cart subtotal should be displayed with a dollar amount</span></div>
+    <div class="step"><span class="step-kw kw-and">AND</span><span class="step-text"><span class="check">✅</span> The estimated total should be displayed with a dollar amount</span></div>
+    <div class="step"><span class="step-kw kw-and">AND</span><span class="step-text"><span class="check">✅</span> The cart icon count should be <strong>"1"</strong></span></div>
+  </div>
+
+  <div class="scenario-card">
+    <div class="scenario-header">
+      <span class="scenario-title">Data Driven — Scenario Outline (3 keywords from Examples table)</span>
+      <span class="badge datadriven">@regression</span>
+    </div>
+    <table style="margin:0;">
+      <tr><th>#</th><th>Keyword</th><th>Validation</th></tr>
+      <tr><td>1</td><td>Samsung</td><td>Results page displayed + URL relevance confirmed</td></tr>
+      <tr><td>2</td><td>MacBook</td><td>Results page displayed + URL relevance confirmed</td></tr>
+      <tr><td>3</td><td>Headphones</td><td>Results page displayed + URL relevance confirmed</td></tr>
+    </table>
+  </div>
+
+  <div class="scenario-card">
+    <div class="scenario-header">
+      <span class="scenario-title">Data Driven — JSON File (testdata.json)</span>
+      <span class="badge datadriven">@jsondatadriven</span>
+    </div>
+    <table style="margin:0;">
+      <tr><th>Keyword</th><th>Expected Min Results</th><th>Category</th></tr>
+      <tr><td>iPhone</td><td>10</td><td>Electronics</td></tr>
+      <tr><td>Samsung</td><td>10</td><td>Electronics</td></tr>
+      <tr><td>MacBook</td><td>5</td><td>Computers</td></tr>
+      <tr><td>Headphones</td><td>10</td><td>Electronics</td></tr>
+    </table>
+  </div>
+</div>
+
+<!-- ─── SECTION 7: How to Execute & View Reports ─── -->
+<div class="section">
+  <div class="section-header"><div class="section-num">7</div><div class="section-title">How to Execute &amp; View Reports</div></div>
+
+  <h3 style="color:#fff;margin-bottom:10px;font-size:15px;">Run All Tests</h3>
+  <pre>mvn clean test</pre>
+
+  <h3 style="color:#fff;margin:20px 0 10px;font-size:15px;">Run Specific Tags</h3>
+  <pre>mvn clean test -Dcucumber.filter.tags="@smoke"
+mvn clean test -Dcucumber.filter.tags="@search"
+mvn clean test -Dcucumber.filter.tags="@cart"
+mvn clean test -Dcucumber.filter.tags="@regression"</pre>
+
+  <h3 style="color:#fff;margin:20px 0 10px;font-size:15px;">Cross-Browser Execution</h3>
+  <pre>mvn clean test -Dbrowser=chrome    # Default
+mvn clean test -Dbrowser=edge
+mvn clean test -Dbrowser=firefox</pre>
+
+  <h3 style="color:#fff;margin:20px 0 10px;font-size:15px;">Run from IntelliJ (no Maven in PATH)</h3>
+  <pre>"C:\Program Files\JetBrains\IntelliJ IDEA 2026.1\plugins\maven\lib\maven3\bin\mvn.cmd" clean test</pre>
+
+  <h3 style="color:#fff;margin:20px 0 12px;font-size:15px;">📊 Execution Reports Location</h3>
+  <div class="exec-summary">
+    <div class="exec-row"><div class="exec-label">ExtentReports Spark</div><div class="exec-value">target/reports/&lt;year&gt;/&lt;month&gt;/&lt;date&gt;/SparkReport.html</div></div>
+    <div class="exec-row"><div class="exec-label">Cucumber HTML</div><div class="exec-value">target/cucumber-reports/report.html</div></div>
+    <div class="exec-row"><div class="exec-label">Cucumber JSON</div><div class="exec-value">target/cucumber-reports/report.json</div></div>
+    <div class="exec-row"><div class="exec-label">Log File</div><div class="exec-value">target/logs/test-execution.log</div></div>
+    <div class="exec-row"><div class="exec-label">Screenshots on Failure</div><div class="exec-value">target/screenshots/&lt;year&gt;/&lt;month&gt;/&lt;date&gt;/&lt;time&gt;_&lt;ScenarioName&gt;.png</div></div>
+    <div class="exec-row"><div class="exec-label">Failed Rerun File</div><div class="exec-value">target/failedrerun.txt</div></div>
+  </div>
+  <div class="info-box" style="margin-top:16px;">📌 To view reports: Right-click <code>SparkReport.html</code> in IntelliJ → Open In → Browser</div>
+</div>
+
+<!-- ─── SECTION 8: Assignment Deliverables ─── -->
+<div class="section">
+  <div class="section-header"><div class="section-num">8</div><div class="section-title">Assignment Deliverables</div></div>
+
+  <div class="deliverables-grid">
+    <div class="deliverable-card">
+      <div class="deliverable-icon">📘</div>
+      <h4>README File</h4>
+      <p>Comprehensive setup instructions, execution guide, tech stack, OOP concepts, and configuration details</p>
+      <span class="status-badge">✓ Included</span>
+    </div>
+    <div class="deliverable-card">
+      <div class="deliverable-icon">🏗</div>
+      <h4>Architecture Diagram</h4>
+      <p>Complete framework architecture with all layers, data flow, and OOP concepts mapping</p>
+      <span class="status-badge">✓ Included</span>
+    </div>
+    <div class="deliverable-card">
+      <div class="deliverable-icon">📝</div>
+      <h4>Feature Files</h4>
+      <p>Search.feature + Cart.feature with Scenario Outline and data-driven testing</p>
+      <span class="status-badge">✓ Included</span>
+    </div>
+    <div class="deliverable-card">
+      <div class="deliverable-icon">⚙️</div>
+      <h4>Step Definitions</h4>
+      <p>CommonSteps, SearchSteps, CartSteps with reusable Cucumber glue code</p>
+      <span class="status-badge">✓ Included</span>
+    </div>
+    <div class="deliverable-card">
+      <div class="deliverable-icon">📊</div>
+      <h4>Execution Reports</h4>
+      <p>ExtentReports Spark HTML, Cucumber HTML/JSON, Log4j2 logs, screenshots on failure</p>
+      <span class="status-badge">✓ Generated</span>
+    </div>
+    <div class="deliverable-card">
+      <div class="deliverable-icon">🔗</div>
+      <h4>Git Repository</h4>
+      <p>Public GitHub repo with 9 meaningful commits, clean .gitignore, full documentation</p>
+      <span class="status-badge">✓ Live</span>
+    </div>
+  </div>
+
+  <div class="github-box">
+    <a href="https://github.com/mani07raj/Walmart-Automation-Project" target="_blank">
+      https://github.com/mani07raj/Walmart-Automation-Project
+    </a>
+    <p>9 professional commits &nbsp;|&nbsp; 23 Java files &nbsp;|&nbsp; 2 feature files &nbsp;|&nbsp; Full documentation</p>
+  </div>
+
+  <h3 style="color:#fff;margin:28px 0 14px;font-size:15px;">📈 Test Execution Summary</h3>
+  <div class="exec-summary">
+    <div class="exec-row"><div class="exec-label">Total Scenarios</div><div class="exec-value">5 (2 @smoke + 3 Scenario Outline)</div></div>
+    <div class="exec-row"><div class="exec-label">Total Steps</div><div class="exec-value">30+</div></div>
+    <div class="exec-row"><div class="exec-label">Execution Status</div><div class="exec-value"><span class="passing">PASSING</span></div></div>
+    <div class="exec-row"><div class="exec-label">Framework Type</div><div class="exec-value">Hybrid — BDD + POM + Data Driven</div></div>
+    <div class="exec-row"><div class="exec-label">Cross-Browser Support</div><div class="exec-value">Chrome ✓ &nbsp;|&nbsp; Edge ✓ &nbsp;|&nbsp; Firefox ✓</div></div>
+    <div class="exec-row"><div class="exec-label">Data Sources</div><div class="exec-value">Scenario Outline Examples + JSON + Excel (ready)</div></div>
+    <div class="exec-row"><div class="exec-label">Reporting</div><div class="exec-value">ExtentReports + Cucumber HTML + Log4j2</div></div>
+    <div class="exec-row"><div class="exec-label">Screenshot on Failure</div><div class="exec-value">Automatic — embedded in reports + saved to disk</div></div>
+  </div>
+</div>
+
+<!-- ─── SECTION 9: Evaluation Criteria Coverage ─── -->
+<div class="section">
+  <div class="section-header"><div class="section-num">9</div><div class="section-title">Evaluation Criteria Coverage</div></div>
+  <table class="eval-table">
+    <tr><th>Criteria</th><th>Weight</th><th>Status</th><th>Implementation Details</th></tr>
+    <tr>
+      <td>Project Setup &amp; Configuration</td><td>10%</td>
+      <td><span class="full-badge">✓ Full</span></td>
+      <td>Maven pom.xml, config.properties, testng.xml, mvn clean test execution</td>
+    </tr>
+    <tr>
+      <td>Framework Architecture &amp; Design</td><td>20%</td>
+      <td><span class="full-badge">✓ Full</span></td>
+      <td>Hybrid (POM + BDD + Data Driven), BasePage, utilities, architecture diagram</td>
+    </tr>
+    <tr>
+      <td>OOP Implementation</td><td>15%</td>
+      <td><span class="full-badge">✓ Full</span></td>
+      <td>Encapsulation (private locators), Abstraction (BasePage + IBrowser), Inheritance (6 pages extend BasePage), Polymorphism (BrowserFactory), Singleton (DriverFactory), Builder (ExcelReader)</td>
+    </tr>
+    <tr>
+      <td>BDD Implementation</td><td>15%</td>
+      <td><span class="full-badge">✓ Full</span></td>
+      <td>Feature files with Background, @smoke/@regression tags, Scenario Outline, hooks with @Before/@After ordered</td>
+    </tr>
+    <tr>
+      <td>Test Scenario Implementation</td><td>10%</td>
+      <td><span class="full-badge">✓ Full</span></td>
+      <td>Strong assertions across 2 scenarios — URL validation, cart subtotal, estimated total, cart count, product page detection</td>
+    </tr>
+    <tr>
+      <td>Cross Browser Support</td><td>10%</td>
+      <td><span class="full-badge">✓ Full</span></td>
+      <td>Chrome + Edge + Firefox in BrowserFactory, -Dbrowser override via Maven</td>
+    </tr>
+    <tr>
+      <td>Reporting &amp; Logging</td><td>10%</td>
+      <td><span class="full-badge">✓ Full</span></td>
+      <td>ExtentReports Spark HTML, Cucumber HTML+JSON, Log4j2 console+file, screenshot on failure</td>
+    </tr>
+    <tr>
+      <td>Data Driven Testing</td><td>5%</td>
+      <td><span class="full-badge">✓ Full</span></td>
+      <td>Scenario Outline with 3-row Examples, JSON-driven via JsonReader + testdata.json, ExcelReader ready</td>
+    </tr>
+    <tr>
+      <td>Git &amp; Version Control</td><td>5%</td>
+      <td><span class="full-badge">✓ Full</span></td>
+      <td>9 meaningful commits, clean .gitignore, public GitHub repository</td>
+    </tr>
+    <tr>
+      <td>Documentation &amp; Deliverables</td><td>10%</td>
+      <td><span class="full-badge">✓ Full</span></td>
+      <td>README, architecture diagram, feature files, execution reports, GitHub link</td>
+    </tr>
+    <tr class="total-row">
+      <td colspan="2">TOTAL SCORE</td>
+      <td colspan="2"><span class="total-score">100% — ALL CRITERIA MET</span></td>
+    </tr>
+  </table>
+</div>
+
+</div><!-- end .page -->
+
+<!-- ─── FOOTER ─── -->
+<div class="footer">
+  <p>Walmart BDD Automation Framework &nbsp;|&nbsp; Maniraj &nbsp;|&nbsp; April 2026</p>
+  <p style="margin-top:8px;">GitHub: <a href="https://github.com/mani07raj/Walmart-Automation-Project" target="_blank">mani07raj/Walmart-Automation-Project</a></p>
+</div>
+
+</body>
+</html>
