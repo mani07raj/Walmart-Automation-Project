@@ -1,0 +1,13 @@
+target/
+*.class
+*.iml
+.idea/
+*.iws
+*.ipr
+.classpath
+.project
+.settings/
+.DS_Store
+*.log
+logs/
+Thumbs.db
